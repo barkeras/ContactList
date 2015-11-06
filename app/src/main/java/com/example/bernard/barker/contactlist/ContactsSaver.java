@@ -127,9 +127,9 @@ public class ContactsSaver extends SQLiteOpenHelper{
      * @return  ArrayList<IndividualTime>
      *
      */
-    public ArrayList<Contact> fetchAllContacts(){
+    public ArrayList<Contact> fetchAllContacts(String order){
         ArrayList<Contact> results = new ArrayList<Contact>();
-        String sql = "SELECT *  FROM  CONTACTS ORDER BY NAME";
+        String sql = "SELECT *  FROM  CONTACTS ORDER BY " + order;
         Cursor cursor = getReadableDatabase().rawQuery(sql, null);
         if(cursor.getCount() > 0){
             cursor.moveToFirst();

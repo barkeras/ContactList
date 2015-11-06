@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Checkable;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class ContactHome extends AppCompatActivity {
     ArrayList<String> contactNames = new ArrayList<String>();
     ListView contactsList;
     ArrayList<Integer> selectedDeletes = new ArrayList<>();
+    final String[] spinnerValue = new String[1];
 
 
     @Override
@@ -51,10 +53,11 @@ public class ContactHome extends AppCompatActivity {
 
 
 
+        spinnerValue[0] = "NAME";
         contactsList = (ListView)findViewById(R.id.listView);
         contacts = new ContactsSaver(getApplicationContext());
         contacts.initialCreate();
-        contactArray = contacts.fetchAllContacts();
+        contactArray = contacts.fetchAllContacts(getSpinnerValue());
         populateStringArray();
         contactAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contactNames);
         //contactAdapter = new ArrayAdapter<String>(this, R.layout.listview_contacts, contactNames);
@@ -85,7 +88,7 @@ public class ContactHome extends AppCompatActivity {
 
 
                  view.setSelected(false);
-                 Toast.makeText(getApplicationContext(), String.valueOf(selectedDeletes), Toast.LENGTH_LONG).show();
+                 //Toast.makeText(getApplicationContext(), String.valueOf(selectedDeletes), Toast.LENGTH_LONG).show();
 
 //             deleteBtn.setOnClickListener(new View.OnClickListener() {
 //                 @Override
@@ -103,7 +106,7 @@ public class ContactHome extends AppCompatActivity {
 
                  selectedDeletes.add(i);
                  view.setSelected(true);
-                 Toast.makeText(getApplicationContext(), String.valueOf(selectedDeletes), Toast.LENGTH_LONG).show();
+                 //Toast.makeText(getApplicationContext(), String.valueOf(selectedDeletes), Toast.LENGTH_LONG).show();
 
 //             deleteBtn.setOnClickListener(new View.OnClickListener() {
 //                 @Override
@@ -127,6 +130,9 @@ public class ContactHome extends AppCompatActivity {
              return true;
          }
      });
+
+
+
 
     }
     public Contact getItemClicked(int i){
@@ -205,7 +211,7 @@ public class ContactHome extends AppCompatActivity {
 
             contactArray = null;
             contactAdapter.clear();
-            contactArray = contacts.fetchAllContacts();
+            contactArray = contacts.fetchAllContacts(getSpinnerValue());
             populateStringArray();
             contactAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contactNames);
             contactsList.setAdapter(contactAdapter);
@@ -218,6 +224,36 @@ public class ContactHome extends AppCompatActivity {
 
 
 
+    public String getSpinnerValue(){
+
+        final Spinner sortSpinner = (Spinner)findViewById(R.id.sortSpin);
+
+
+
+
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spinnerValue[0] = sortSpinner.getSelectedItem().toString().toUpperCase();
+                //Toast.makeText(getApplicationContext(),spinnerValue[0],Toast.LENGTH_LONG).show();
+
+                contactArray = null;
+                contactAdapter.clear();
+                contactArray = contacts.fetchAllContacts(spinnerValue[0]);
+                populateStringArray();
+                contactAdapter = new ArrayAdapter<String>(ContactHome.this, android.R.layout.simple_list_item_1, contactNames);
+                contactsList.setAdapter(contactAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        return spinnerValue[0];
+    }
+
 
 
     @Override
@@ -229,7 +265,7 @@ public class ContactHome extends AppCompatActivity {
 
             contactArray = null;
             contactAdapter.clear();
-            contactArray = contacts.fetchAllContacts();
+            contactArray = contacts.fetchAllContacts(getSpinnerValue());
             populateStringArray();
             contactAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contactNames);
             contactsList.setAdapter(contactAdapter);

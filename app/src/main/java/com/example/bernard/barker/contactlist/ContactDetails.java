@@ -33,7 +33,7 @@ public class ContactDetails extends AppCompatActivity {
         Contact foo = (Contact) getIntent().getSerializableExtra("Contact");
 
 
-        Toast.makeText(ContactDetails.this, foo.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(ContactDetails.this, foo.toString(), Toast.LENGTH_LONG).show();
 
         name = (TextView)findViewById(R.id.contactName);
         email = (TextView)findViewById(R.id.emailAddress);

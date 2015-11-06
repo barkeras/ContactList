@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * Created by Andrew on 11/6/2015.
@@ -28,12 +29,41 @@ public class ContactAdd extends AppCompatActivity {
         String email = String.valueOf(emailET.getText());
         String phone = String.valueOf(phoneET.getText());
 
-        Contact newContact = new Contact(name,email,phone);
-        ContactsSaver cs = new ContactsSaver(getApplicationContext());
-        cs.insert(newContact);
+        if((email.contains("@")) && (phone.length() == 10) && (!name.isEmpty())){
 
-        setResult(Activity.RESULT_OK);
-        finish();
+            Contact newContact = new Contact(name,email,phone);
+            ContactsSaver cs = new ContactsSaver(getApplicationContext());
+            cs.insert(newContact);
+
+            setResult(Activity.RESULT_OK);
+            finish();
+
+        }
+        else if((!email.contains("@")) && (phone.length()==10) && (!name.isEmpty())){
+            Toast.makeText(this,"Email field must contain @ sign",Toast.LENGTH_LONG).show();
+
+        }
+        else if((email.contains("@")) && (phone.length()!=10) && (!name.isEmpty())){
+            Toast.makeText(this,"Phone number must be 10 digits",Toast.LENGTH_LONG).show();
+
+        }
+        else if((!email.contains("@")) && (phone.length()!=10) && (!name.isEmpty())){
+            Toast.makeText(this,"Please input valid email and phone number",Toast.LENGTH_LONG).show();
+        }
+        else if((email.contains("@")) && (phone.length()!=10) && (name.isEmpty())){
+            Toast.makeText(this,"Please input contact name and valid phone number",Toast.LENGTH_LONG).show();
+        }
+        else if((!email.contains("@")) && (phone.length()==10) && (name.isEmpty())){
+            Toast.makeText(this,"Please input contact name and valid email address",Toast.LENGTH_LONG).show();
+        }
+        else if((!email.contains("@")) && (phone.length()!=10) && (name.isEmpty())){
+            Toast.makeText(this,"Please fill out all the fields",Toast.LENGTH_LONG).show();
+        }
+        else if((email.contains("@")) && (phone.length()==10) && (name.isEmpty())){
+            Toast.makeText(this,"Please input contact name",Toast.LENGTH_LONG).show();
+        }
+
+
 
     }
 }

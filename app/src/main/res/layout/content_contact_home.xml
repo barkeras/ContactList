@@ -47,14 +47,18 @@
 
 
 
-        <Button
+        <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sort"
-            android:id="@+id/sortBtn"
-            android:layout_alignParentTop="true"
+            android:entries="@array/sortOrder"
+            android:id="@+id/sortSpin"
+            android:layout_alignTop="@id/deleteContactBtn"
+            android:layout_alignBottom="@id/deleteContactBtn"
             android:layout_toLeftOf="@id/deleteContactBtn"
-            android:layout_toStartOf="@id/deleteContactBtn"/>
+            android:layout_toStartOf="@id/deleteContactBtn"
+            android:layout_alignParentLeft="true"
+            android:gravity="bottom|right"
+            android:background="@color/colorPrimaryHighlight"/>
 
         <Button
             android:layout_width="wrap_content"
